@@ -1,0 +1,13 @@
+services:
+  fastapi:
+    build:
+      context: ./fastapi-logic
+    ports:
+      - "8001:8000"
+  streamlit:
+    build:
+      context: ./streamlit-ui
+    ports:
+      - "8502:8501"
+    environment:
+      - BACKEND_URL=http://fastapi:8000
