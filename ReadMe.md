@@ -9,3 +9,5 @@
 #### To run the app, excute the command below
 
 `docker compose up --build`
+
+http://localhost:8502
