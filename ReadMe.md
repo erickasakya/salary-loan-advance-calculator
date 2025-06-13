@@ -24,8 +24,5 @@ http://localhost:8502
 
 ```
 
-```
 2. The live version
 [Click here](http://34.254.221.147:8502/)
-
-```
