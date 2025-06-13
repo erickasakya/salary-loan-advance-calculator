@@ -1,19 +1,49 @@
 from fastapi import FastAPI
-from typing import Annotated
+from fastapi import HTTPException
 from pydantic import BaseModel, Field
 import pandas as pd
 
-ap = FastAPI()
+app = FastAPI()
 
 
-class Item(BaseModel):
+class loan(BaseModel):
     loan_amount: int
     interest_rate: float
     loan_term: int
 
 
-@ap.post("/calculate_loan")
-def calculate_loan(item: Item):
+class advance(BaseModel):
+    salary: float
+    frequency: int
+    loan_amount: float
+
+
+@app.post("/calculate_advance")
+def calculate_advance(item: advance):
+    # You can only get 75%  of your salary as an advance loan
+    monthly_salary = item.salary / item.frequency
+
+    if item.salary <= 0 or item.frequency <= 0 or item.loan_amount <= 0:
+        raise HTTPException(
+            status_code=400, detail="Please enter valid values for all fields."
+        )
+    if item.loan_amount > 0.75 * monthly_salary:
+        raise HTTPException(
+            status_code=400,
+            detail=f"You don't qualify for the loan amount {item.loan_amount:,.2f} requested. "
+            "Loan amount cannot exceed 75% of your monthly salary.",
+        )
+
+    # If all checks pass, calculate the advance loan details
+    max_loan_amount = 0.75 * monthly_salary
+    return {
+        "max_loan_amount": f"{max_loan_amount:,.2f}",
+        "requested_loan_amount": f"{item.loan_amount:,.2f}",
+    }
+
+
+@app.post("/calculate_loan")
+def calculate_loan(item: loan):
     principal = item.loan_amount
     interest_rate = item.interest_rate
     loan_term = item.loan_term
