@@ -1,0 +1,21 @@
+services:
+  fastapi:
+    container_name: fastapi
+    image: erickasakya/backend-cal:latest
+    networks:
+      - salary-net
+
+  streamlit:
+    container_name: streamlit
+    image: erickasakya/frontend-cal:latest
+    ports:
+      - "8502:8501"
+    environment:
+      - BACKEND_URL=http://fastapi:8000
+    networks:
+      - salary-net
+  
+networks:
+  salary-net:
+    name: salary-loan-advance-cal-network
+    driver: bridge
