@@ -17,5 +17,15 @@ OR
 docker compose up -d --build
 ```
 
-Access the system using the link below
+### Access the system using the link below
+```
+1. If locally cloned
 http://localhost:8502
+
+```
+
+```
+2. The live version
+[Click here](http://34.254.221.147:8502/)
+
+```
